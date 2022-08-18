@@ -4,6 +4,12 @@ namespace VoeAirlinesSenai.Contexts;
 
 public class VoeAirlinesContext : DbContext
 {
+   private readonly IConfiguration _configuration;
+
+   public VoeAirlinesContext(IConfiguration configuration)
+   {
+       _configuration = configuration;
+   }
 
     public DbSet<Aeronave> Aeronaves => Set<Aeronave>();
     public DbSet<Manutencao> Manutencoes => Set<Manutencao>();
@@ -11,10 +17,8 @@ public class VoeAirlinesContext : DbContext
     public DbSet<Voo> Voos => Set<Voo>();
     public DbSet<Cancelamento> Cancelamentos => Set<Cancelamento>();
 
-
-
-
-
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){
+      optionsBuilder.UseSqlServer(_configuration.GetConnectionString("VoeAirlines"));
+    }
 
 }
